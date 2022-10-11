@@ -1,15 +1,7 @@
-
-
-
-
-
 const express = require('express');
 const router = express.Router();
-const booksController = require('../controllers/books')
+const budgetController = require('../Controllers/budget');
 
-router.get('/', booksController.index)
-router.get('/:id', booksController.show)
-router.post('/', booksController.create)
-router.delete('/:id', booksController.destroy)
+router.get('/', budgetController.defaultRoute);
 
 module.exports = router;
