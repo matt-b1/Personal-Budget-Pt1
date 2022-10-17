@@ -14,7 +14,6 @@ const uri = process.env.ATLAS_URI;
 async function connect() {
     try {
         await mongoose.connect(uri);
-        console.log('Connected to MongoDB');
     } catch (error) {
         console.log(error);
     }
@@ -22,7 +21,7 @@ async function connect() {
 
 connect();
 
-const routes = require('./Routes/budget');
-app.use('/', routes);
+app.use('/', require('./Routes/budget'));
+app.use('/register', require('./Routes/register'));
 
 module.exports = app;
