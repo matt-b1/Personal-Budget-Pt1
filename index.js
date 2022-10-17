@@ -1,7 +1,9 @@
 const app = require('./app');
+const mongoose = require('mongoose');
 
-app.listen(4000, () => {
-    console.log(`Express departing from 4000`);
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB');
+    app.listen(4000, () => console.log(`Express departing from 4000`))
 })
 
 // const server = express();
