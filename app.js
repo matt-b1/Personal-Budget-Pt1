@@ -23,5 +23,6 @@ connect();
 
 app.use('/', require('./Routes/budget'));
 app.use('/register', require('./Routes/register'));
+app.use('/login', require('./Routes/login'));
 
 module.exports = app;

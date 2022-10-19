@@ -13,6 +13,22 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minlength: 6
+    },
+    firstname: {
+        type: String,
+        required: true,
+        minlength: 2,
+        maxlength: 255
+    },
+    lastname: {
+        type: String,
+        required: true,
+        minlength: 2,
+        maxlength: 255
+    },
+    dateofbirth: {
+        type: String,
+        required: true,
     }
 });
 

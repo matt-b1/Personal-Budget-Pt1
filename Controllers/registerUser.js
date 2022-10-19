@@ -7,7 +7,10 @@ const handleNewUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         const result = await User.create({
             "username": user.username,
-            "password": hashedPassword
+            "password": hashedPassword,
+            "firstname": user.firstname,
+            "lastname": user.lastname,
+            "dateofbirth": user.dateofbirth
         })
     console.log(result);
     res.status(201).json({ 'success': `New user ${user.username} created`});
