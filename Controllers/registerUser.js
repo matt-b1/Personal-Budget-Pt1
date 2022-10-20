@@ -8,9 +8,9 @@ const handleNewUser = async (req, res) => {
         const result = await User.create({
             "username": user.username,
             "password": hashedPassword,
-            "firstname": user.firstname,
-            "lastname": user.lastname,
-            "dateofbirth": user.dateofbirth
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "dateOfBirth": user.dateOfBirth
         })
     console.log(result);
     res.status(201).json({ 'success': `New user ${user.username} created`});

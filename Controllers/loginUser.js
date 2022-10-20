@@ -9,8 +9,6 @@ const handleLogin = async (req, res) => {
         return res.status(400).json({ 'message': 'Username or password required.'})
     }
     const foundUser = await User.findOne( { username: user.username }).exec();
-    const otherUsers = await User.find( { username: { $ne: user.username }}).exec();
-    otherUsers.forEach(user => console.log(user.username));
     if (foundUser) {
         console.log(`${user.username} IS FOUND`);
     } else {
@@ -33,6 +31,8 @@ const handleLogin = async (req, res) => {
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
+        foundUser.refreshToken = refreshToken;
+        const result = await foundUser.save();
         res.json({ 'success': `User ${user.username} has logged in.`});
     }
     else {
