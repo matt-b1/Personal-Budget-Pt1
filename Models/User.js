@@ -14,21 +14,23 @@ const userSchema = new Schema({
         required: true,
         minlength: 6
     },
-    firstName: {
-        type: String,
-        required: true,
-        minlength: 2,
-        maxlength: 255
-    },
-    lastName: {
-        type: String,
-        required: true,
-        minlength: 2,
-        maxlength: 255
-    },
-    dateOfBirth: {
-        type: String,
-        required: true
+    userInfo: {
+        firstName: {
+            type: String,
+            required: true,
+            minlength: 2,
+            maxlength: 255
+        },
+        lastName: {
+            type: String,
+            required: true,
+            minlength: 2,
+            maxlength: 255
+        },
+        dateOfBirth: {
+            type: String,
+            required: true
+        },    
     },
     refreshToken: {
         type: String,
