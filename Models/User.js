@@ -14,22 +14,27 @@ const userSchema = new Schema({
         required: true,
         minlength: 6
     },
-    firstname: {
+    firstName: {
         type: String,
         required: true,
         minlength: 2,
         maxlength: 255
     },
-    lastname: {
+    lastName: {
         type: String,
         required: true,
         minlength: 2,
         maxlength: 255
     },
-    dateofbirth: {
+    dateOfBirth: {
         type: String,
-        required: true,
-    }
+        required: true
+    },
+    refreshToken: {
+        type: String,
+        default: ""
+    },
+
 });
 
 module.exports = mongoose.model('User', userSchema);
