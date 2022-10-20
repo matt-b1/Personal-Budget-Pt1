@@ -32,8 +32,10 @@ const handleLogin = async (req, res) => {
             { expiresIn: '1d' }
         );
         foundUser.refreshToken = refreshToken;
+        //save and update user to database
         const result = await foundUser.save();
-        res.json({ 'success': `User ${user.username} has logged in.`});
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 }) // Add secure: true
+        res.json({ accessToken });
     }
     else {
         res.sendStatus(401);
