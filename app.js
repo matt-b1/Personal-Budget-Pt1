@@ -15,5 +15,6 @@ app.use('/', require('./Routes/budget'));
 app.use('/register', require('./Routes/register'));
 app.use('/login', require('./Routes/login'));
 app.use('/logout', require('./Routes/logout'));
+app.use('/refresh', require('./Routes/refresh'));
 
 module.exports = app;
