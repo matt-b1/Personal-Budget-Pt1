@@ -32,6 +32,10 @@ const userSchema = new Schema({
             required: true
         },    
     },
+    totalBudget: {
+        type: Number,
+        default: 0
+    },
     refreshToken: {
         type: String,
         default: ""
