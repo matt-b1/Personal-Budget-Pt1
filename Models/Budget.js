@@ -3,8 +3,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const budgetSchema = new Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
     active: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     category: {
         type: String,
@@ -12,12 +18,10 @@ const budgetSchema = new Schema({
     },
     allocatedBudget: {
         type: Number
-    },
-    entryDate: {
-        type: Date
-    }
+    } 
+}, 
+{
+    timestamps: true
 })
-
-
     
 module.exports = mongoose.model('Budget', budgetSchema);    

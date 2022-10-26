@@ -1,6 +1,7 @@
 const User = require('../Models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const app = require('../app');
 require('dotenv').config();
 
 const handleLogin = async (req, res) => {
