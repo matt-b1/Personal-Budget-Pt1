@@ -1,7 +1,8 @@
-//const Budget = require('../models/Budget');
+const Budget = require('../Models/Budget');
 
-async function defaultRoute (req, res) {
-    res.send('Hello');
+async function handleBudget (req, res) {
+    console.log(`Hello ${req.user}`);
+    res.send(`Hello`);
 }
 
-module.exports = { defaultRoute };
+module.exports = { handleBudget };
