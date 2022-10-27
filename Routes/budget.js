@@ -3,6 +3,10 @@ const router = express.Router();
 const budgetController = require('../Controllers/budget');
 const verifyJWT = require('../Middleware/verifyJWT');
 
-router.get('/', verifyJWT, budgetController.handleBudget);
+router.route('/')
+    .get(verifyJWT, budgetController.handleBudget)
+    .post(verifyJWT)
+    .patch(verifyJWT)
+    .delete(verifyJWT)
 
 module.exports = router;
