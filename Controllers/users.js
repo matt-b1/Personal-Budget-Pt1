@@ -1,5 +1,5 @@
-const user = require('../Models/User');
-const budget = require('../Models/Budget');
+const User = require('../Models/User');
+const Budget = require('../Models/Budget');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 
@@ -14,13 +14,12 @@ const getAllUsers = asyncHandler(async (req, res) => {
 const createNewUser = asyncHandler(async (req, res) => {
     //const { username, password, roles } = req.body
     const user = req.body;
-
     // Confirm data
-    if (!user.username || !user.password || !Array.isArray(user.roles) || !(user.roles).length) 
+    if (!user.username || !user.password) 
         return res.status(400).json({ message: 'All fields are required'})
         
     // Check for duplicates
-    const duplicate = await User.findOne({ username }).lean().exec()
+    const duplicate = await User.findOne({ "user": user.username }).lean().exec()
     
     if(duplicate) {
         return res.status(409).json({ message: 'Duplicate username'})
