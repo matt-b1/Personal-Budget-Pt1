@@ -7,6 +7,6 @@ router.route('/')
     .get(budgetController.getAllBudgets)
     .post(budgetController.createNewBudget)
     .patch(budgetController.updateBudget)
-    //.delete(verifyJWT, budgetController.deleteBudget)
+    .delete(budgetController.deleteBudget)
 
 module.exports = router;

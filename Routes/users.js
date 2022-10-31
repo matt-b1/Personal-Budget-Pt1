@@ -6,7 +6,7 @@ const verifyJWT = require('../Middleware/verifyJWT')
 router.route('/')
     .get(verifyJWT, usersController.getAllUsers)
     .post(usersController.createNewUser)
-    .patch(verifyJWT, usersController.updateUser)
-    .delete(verifyJWT, usersController.deleteUser)
+    .patch(usersController.updateUser)
+    .delete(usersController.deleteUser)
 
     module.exports = router

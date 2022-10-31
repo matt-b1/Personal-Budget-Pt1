@@ -102,36 +102,50 @@ const updateBudget = asyncHandler(async (req, res) => {
     res.json({ message: `${updatedBudget.category} updated`})
 })
 
-// const deleteBudget = asyncHandler(async (req, res) => {
-//     const user = req.body
+const deleteBudget = asyncHandler(async (req, res) => {
+    const { id, user } = req.body
+    let validUser
 
-//     if(!budget.id) {
-//         return res.status(400).json({ message: 'Budget ID required' })
-//     }
+    //Check format of Object ID
+    try {
+        validUser = await User.findById(user).exec()
+    } catch {
+        //console.log('Invalid object id')
+        return res.status(400).json({ message: 'Object ID is not valid'})
+    }
 
-//     const budget = await Budget.findOne({ budget: budget.id }).lean().exec()
-//     if (budget) {
-//         return res.status(400).json({ message: 'Budget has assigned budget(s)' })
-//     }
+    //Check if user exists in Users database
+    if (!validUser) {
+        //console.log('User does not exist');
+        return res.status(400).json({ message: 'User does not exist'})
+    }
+    
+    //Confirm data
+    if(!id && !user) {
+        return res.status(400).json({ message: 'Budget and user ID required' })
+    }
 
-//     const foundUser = await User.findById(id).exec()
+    //Delete the category
+    const foundBudget = await Budget.findById(id).exec()
 
-//     if (!foundUser) {
-//         return res.status(400).json({ message: 'User not found' })
-//     }
+    if (!foundBudget) {
+        return res.status(400).json({ message: 'Category not found' })
+    }
 
-//     const result = await user.deleteOne()
+    // After validation delete the user    
+    const deleteBudget = await foundBudget.deleteOne()
 
-//     const reply = `Username ${result.username} with ID ${result._id} deleted successfully`
+    // User reply
+    const serverReply = `Budget ${deleteBudget.category} assigned to ${validUser.username} deleted`
 
-//     res.json(reply)
-// })
+    res.json(serverReply)
+})
 
 module.exports = { 
     getAllBudgets,
     createNewBudget,
     updateBudget,
-    //deleteBudget
+    deleteBudget
 }
 
 // module.exports = { handleBudget };
