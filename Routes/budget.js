@@ -4,9 +4,9 @@ const budgetController = require('../Controllers/budget');
 const verifyJWT = require('../Middleware/verifyJWT');
 
 router.route('/')
-    .get(budgetController.getAllBudgets)
-    .post(budgetController.createNewBudget)
-    .patch(budgetController.updateBudget)
-    .delete(budgetController.deleteBudget)
+    .get(verifyJWT, budgetController.getAllBudgets)
+    .post(verifyJWT, budgetController.createNewBudget)
+    .patch(verifyJWT, budgetController.updateBudget)
+    .delete(verifyJWT, budgetController.deleteBudget)
 
 module.exports = router;
