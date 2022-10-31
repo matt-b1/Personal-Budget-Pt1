@@ -83,12 +83,13 @@ const updateUser = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
     const { id, username, password } = req.body
 
-    if(!id) {
-        return res.status(400).json({ message: 'User ID required' })
+    if(!id || !username || !password) {
+        return res.status(400).json({ message: 'All fields required' })
     }
 
     const budget = await Budget.findOne({ user: id }).lean().exec()
     if (budget) {
+        console.log('User has assigned budgets, cannot delete')
         return res.status(400).json({ message: 'User has assigned budget(s)' })
     }
 
@@ -98,11 +99,13 @@ const deleteUser = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'User not found' })
     }
 
-    const result = await user.deleteOne()
+    const deleteUser = await foundUser.deleteOne()
 
-    const reply = `Username ${result.username} with ID ${result._id} deleted successfully`
+    const serverReply = `Username ${deleteUser.username} with ID ${deleteUser._id} deleted successfully`
 
-    res.json(reply)
+    console.log(`Username ${deleteUser.username} with ID ${deleteUser._id} deleted successfully`)
+
+    res.json(serverReply)
 })
 
 module.exports = { 
