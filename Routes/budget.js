@@ -6,7 +6,7 @@ const verifyJWT = require('../Middleware/verifyJWT');
 router.route('/')
     .get(budgetController.getAllBudgets)
     .post(budgetController.createNewBudget)
-    //.patch(verifyJWT, budgetController.updateBudget)
+    .patch(budgetController.updateBudget)
     //.delete(verifyJWT, budgetController.deleteBudget)
 
 module.exports = router;

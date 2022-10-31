@@ -1,6 +1,7 @@
 // To complete CRUD below:
 
 const Budget = require('../Models/Budget');
+const User = require('../Models/User');
 const asyncHandler = require('express-async-handler');
 
 // async function handleBudget (req, res) {
@@ -21,7 +22,15 @@ const createNewBudget = asyncHandler(async (req, res) => {
     //const budget = req.body
     const { user, category, allocatedBudget } = req.body;
 
-    // // Confirm data
+    //Check if user exists in User database
+    const validUser = await User.findById(user).exec()
+
+    if (!validUser) {
+        console.log('User does not exist');
+        return res.status(400).json({ message: 'User does not exist'})
+    }
+
+    // Confirm data
     if (!user || !category) {    
         return res.status(400).json({ message: 'All fields are required'})
     }
@@ -39,56 +48,70 @@ const createNewBudget = asyncHandler(async (req, res) => {
             allocatedBudget
         })
         console.log(newCategory);
-        console.log(`New category ${category} created`);
-        res.status(201).json({ 'success': `New category ${category} created`});
+        console.log(`New category ${category} created for user ${validUser.username}`);
+        res.status(201).json({ 'success': `New category ${category} created for user ${validUser.username}`});
     } catch (err) {
         res.status(500).json({ 'message': err.message });
     }
 })
 
-// const updateBudget = asyncHandler(async (req, res) => {
-//     //const { id, username, roles, password } = req.body
-//     const user = req.body;
-//     // Confirm data
-//     if (!user.id || !user.username || !(user.roles).length || !user.password || !Array.isArray(user.roles)) {
-//         return res.status(400).json({ message: 'All fields are required' })
-//     }
-
-//     const foundUser = await User.findById(id).exec()
-
-//     if (!foundUser) {
-//         return res.status(400).json({ message: 'User not found'})
-//     }
+const updateBudget = asyncHandler(async (req, res) => {
+    //const user = req.body;
+    const { id, user, category,  allocatedBudget } = req.body
+    let validUser;
     
-//     // Check for duplicate
-//     const duplicate = await User.findOne({ username }).lean().exec()
-//     // Allow updates to the original user
-//     if (duplicate && duplicate?._id.toString() !== id) {
-//         return res.status(400).json({ message: 'Duplicate username found' })
-//     }
-//     foundUser.username = user.username;
-//     foundUser.roles = user.roles;
-
-//     if (password) {
-//         // Hash password
-//         foundUser.password = await bcrypt.hash(user.password, 10) // salt rounds
-//     }
     
-//     const updatedUser = await foundUser.save()
+    //Check format of Object ID
+    try {
+        validUser = await User.findById(user).exec()
+    } catch {
+        //console.log('Invalid object id')
+        return res.status(400).json({ message: 'Object ID is not valid'})
+    }
 
-//     res.json({ message: `${updatedUser.username} updated`})
-// })
+    //Check if user exists in Users database
+    if (!validUser) {
+        //console.log('User does not exist');
+        return res.status(400).json({ message: 'User does not exist'})
+    }
+
+    //Check all fields filled for budget request
+    if (!user || !category || !allocatedBudget) {
+        return res.status(400).json({ message: 'All fields are required' })
+    }
+
+    const foundBudget = await Budget.findById(id).exec()
+
+    if (!foundBudget) {
+        return res.status(400).json({ message: 'Category not found'})
+    }
+    
+    // // Check for duplicate
+    const duplicate = await Budget.findOne({ category }).lean().exec()
+    // // Allow updates to the original user
+    if (duplicate && duplicate?._id.toString() !== id) {
+        return res.status(400).json({ message: 'Duplicate category found' })
+    }
+    foundBudget.allocatedBudget = allocatedBudget
+    
+
+
+    const updatedBudget = await foundBudget.save()
+
+    //console.log(`${updatedBudget.category} updated with new budget of ${updatedBudget.allocatedBudget}`)
+    res.json({ message: `${updatedBudget.category} updated`})
+})
 
 // const deleteBudget = asyncHandler(async (req, res) => {
 //     const user = req.body
 
-//     if(!user.id) {
-//         return res.status(400).json({ message: 'User ID required' })
+//     if(!budget.id) {
+//         return res.status(400).json({ message: 'Budget ID required' })
 //     }
 
-//     const budget = await Budget.findOne({ user: user.id }).lean().exec()
+//     const budget = await Budget.findOne({ budget: budget.id }).lean().exec()
 //     if (budget) {
-//         return res.status(400).json({ message: 'User has assigned budget(s)' })
+//         return res.status(400).json({ message: 'Budget has assigned budget(s)' })
 //     }
 
 //     const foundUser = await User.findById(id).exec()
@@ -107,7 +130,7 @@ const createNewBudget = asyncHandler(async (req, res) => {
 module.exports = { 
     getAllBudgets,
     createNewBudget,
-    //updateBudget,
+    updateBudget,
     //deleteBudget
 }
 
