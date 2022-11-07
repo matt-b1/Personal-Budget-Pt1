@@ -2,11 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db.js');
 const cookies = require('cookie-parser');
+const corsOptions = require('./config/corsOptions');
 
 const app = express();
 
 app.use(cookies());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 connectDB.connect();
