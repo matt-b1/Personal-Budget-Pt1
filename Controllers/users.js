@@ -14,15 +14,15 @@ const getAllUsers = asyncHandler(async (req, res) => {
 const createNewUser = asyncHandler(async (req, res) => {
     const { username, password, userInfo } = req.body //Add roles
     //const user = req.body;
-
+    console.log(username);
+    console.log(password);
+    console.log(userInfo);
     // Confirm data
     if (!username || !password) 
         return res.status(400).json({ message: 'All fields are required'})
         
     // Check for duplicates
     const duplicate = await User.findOne({ username }).lean().exec()
-    console.log(duplicate);
-
     if(duplicate) {
         console.log('duplicate')
         return res.status(409).json({ message: 'Duplicate username'})
