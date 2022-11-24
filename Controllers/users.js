@@ -14,9 +14,6 @@ const getAllUsers = asyncHandler(async (req, res) => {
 const createNewUser = asyncHandler(async (req, res) => {
     const { username, password, userInfo } = req.body //Add roles
     //const user = req.body;
-    console.log(username);
-    console.log(password);
-    console.log(userInfo);
     // Confirm data
     if (!username || !password) 
         return res.status(400).json({ message: 'All fields are required'})
@@ -46,34 +43,42 @@ const createNewUser = asyncHandler(async (req, res) => {
 })
 
 const updateUser = asyncHandler(async (req, res) => {
-    const { id, username, password } = req.body
+
+    const { user, totalBudget } = req.body
+
     //const user = req.body;
+    console.log(user);
+    console.log(totalBudget);
 
     // Confirm data
-    if (!id || !username) {
+    if (!user) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
     //Find valid user
-    const foundUser = await User.findById(id).exec()
+    /*const foundUser = await User.findById(id).exec()
 
     if (!foundUser) {
         return res.status(400).json({ message: 'User not found'})
     }
-    
+    */
     // Check for duplicate
-    const duplicate = await User.findOne({ username }).lean().exec()
-
-    // Allow updates to the original user
-    if (duplicate && duplicate?._id.toString() !== id) {
-        return res.status(400).json({ message: 'Duplicate username found' })
+    const foundUser = await User.findOne({ 'username': user }).exec()
+    //console.log(foundUser);
+    // Allow updates to the original user && duplicate?._id.toString() !== id
+    if (foundUser) {
+        foundUser.totalBudget = totalBudget;   
+        //return res.status(400).json({ message: 'Duplicate username found' })
     }
-    foundUser.username = username;
 
+    //console.log(foundUser);
+
+    /*
     if (password) {
         // Hash password
         foundUser.password = await bcrypt.hash(user.password, 10) // salt rounds
     }
+    */
     
     const updatedUser = await foundUser.save()
 

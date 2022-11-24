@@ -2,7 +2,7 @@ const User = require('../Models/User');
 
 const handleLogout = async (req, res) => {
         const cookies = req.cookies;
-        console.log(cookies);
+        //console.log(cookies);
         if (!cookies?.jwt) return res.sendStatus(204); 
         const refreshToken = cookies.jwt;
 
@@ -14,7 +14,7 @@ const handleLogout = async (req, res) => {
 
     foundUser.refreshToken = '';
     const result = await foundUser.save();
-    console.log(result);
+    //console.log(result);
 
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true}); //add secure
     res.sendStatus(204);

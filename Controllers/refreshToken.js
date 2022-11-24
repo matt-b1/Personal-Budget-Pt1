@@ -2,7 +2,6 @@ const User = require('../Models/User');
 const jwt = require('jsonwebtoken');
 
 const handleRefreshToken = async (req, res) => {
-    console.log(req.cookies);
     const cookies = req.cookies;
     
     if (!cookies?.jwt) {
