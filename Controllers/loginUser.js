@@ -35,7 +35,7 @@ const handleLogin = async (req, res) => {
         foundUser.refreshToken = refreshToken;
         //save and update user to database
         const result = await foundUser.save();
-        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000, secure: true }) // Add secure: true
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure:true, maxAge: 24 * 60 * 60 * 1000 }) // Add secure: true
         res.json({ accessToken });
     }
     else {
